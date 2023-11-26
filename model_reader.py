@@ -26,7 +26,8 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_path", type=str, default=None)
     args = parser.parse_args(sys.argv[1:])
 
-    checkpoints = [f"/media/pavlos/One Touch/unity_train_checkpoints/chkpnt{i}.pth" for i in range(10, 4010, 10)]
+    # checkpoints = [f"/media/pavlos/One Touch/unity_train_checkpoints/chkpnt{i}.pth" for i in range(10, 4010, 10)]
+    checkpoints = [f"/home/pavlos/Desktop/stuff/Uni-Masters/Q5/GraphicsSeminar/gaussian-splatting/output/train_smaller_new/chkpnt{i}.pth" for i in range(10, 1010, 10)]
 
     opacities = []
     numbers = []
@@ -41,8 +42,8 @@ if __name__ == "__main__":
         opacities.append(mean_opacity.cpu().detach())
         numbers.append(number_of_gaussians)
 
-    np.savetxt("opacities.txt", opacities)
-    np.savetxt("numbers.txt", numbers)
+    np.savetxt("opacities_smaller_new.txt", opacities)
+    np.savetxt("numbers_smaller_new.txt", numbers)
 
     # All done
     print("\nReading complete.")
