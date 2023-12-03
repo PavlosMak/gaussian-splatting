@@ -26,10 +26,10 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_path", type=str, default=None)
     args = parser.parse_args(sys.argv[1:])
 
-    output = "/home/pavlos/Desktop/stuff/Uni-Masters/Q5/GraphicsSeminar/train_smaller_frames"
+    output = "/home/pavlos/Desktop/stuff/Uni-Masters/Q5/GraphicsSeminar/train_smaller_frames_3000"
 
-    for checkpoint in range(10, 1010, 10):
-        checkpoint_path = f"/home/pavlos/Desktop/stuff/Uni-Masters/Q5/GraphicsSeminar/gaussian-splatting/output/train_smaller_new/chkpnt{checkpoint}.pth"
+    for checkpoint in range(1010, 3010, 10):
+        checkpoint_path = f"/home/pavlos/Desktop/stuff/Uni-Masters/Q5/GraphicsSeminar/gaussian-splatting/output/train_smaller_3000_500/chkpnt{checkpoint}.pth"
         print(f"Reading: {checkpoint}")
         gaussians = reader(lp.extract(args), op.extract(args), checkpoint_path)
         mean_opacity = torch.mean(gaussians.get_opacity)
@@ -40,6 +40,7 @@ if __name__ == "__main__":
             opacity = gaussians.get_opacity[i]
             rotation = gaussians.get_rotation[i]
             scale = gaussians.get_scaling[i]
+            rgb = gaussians.get_features[i][0]
             row = {
                 "id": i,
                 "position_x": position[0].item(),
@@ -52,7 +53,10 @@ if __name__ == "__main__":
                 "rot_y": rotation[1].item(),
                 "rot_z": rotation[2].item(),
                 "rot_w": rotation[3].item(),
-                "opacity": opacity.item()
+                "opacity": opacity.item(),
+                "red_feature": rgb[0].item(),
+                "green_feature": rgb[1].item(),
+                "blue_feature": rgb[2].item()
             }
             entries.append(row)
         frame_df = pd.DataFrame(entries)
